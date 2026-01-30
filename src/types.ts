@@ -11,7 +11,10 @@ export interface StackState {
   stack: StackItem[];
 }
 
-export type StackAction = { type: "PUSH"; item: StackItem } | { type: "POP" };
+export type StackAction =
+  | { type: "PUSH"; item: StackItem }
+  | { type: "POP" }
+  | { type: "REMOVE"; id: string };
 
 export interface StackApi {
   stack: StackItem[];
@@ -19,4 +22,6 @@ export interface StackApi {
   push<P>(component: ComponentType<P>, props: P): void;
 
   pop(): void;
+
+  remove(id: string): void;
 }

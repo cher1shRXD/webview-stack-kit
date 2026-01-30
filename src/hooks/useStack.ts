@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { StackContext } from "./stack-provider"
+import { StackContext } from "../context/stack-provider"
 
 export const useStack = () => {
   const ctx = useContext(StackContext)

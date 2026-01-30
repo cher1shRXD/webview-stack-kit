@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { StackAction } from "./types";
+import { StackAction } from "../types";
 
 export const createStackActions = (dispatch: React.Dispatch<StackAction>) => {
   return {
@@ -16,6 +16,10 @@ export const createStackActions = (dispatch: React.Dispatch<StackAction>) => {
 
     pop() {
       dispatch({ type: "POP" });
+    },
+
+    remove(id: string) {
+      dispatch({ type: "REMOVE", id });
     },
   };
 };
