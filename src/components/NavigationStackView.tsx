@@ -16,6 +16,21 @@ export const NavigationStackView = () => {
     index: number;
   } | null>(null);
 
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      e.preventDefault?.();
+      if (stack.length > 1) {
+        pop();
+        window.history.pushState(null, '', window.location.href);
+      }
+    };
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [stack.length, pop]);
+
   const handleDragEnd = useCallback(() => {
     if (!dragInfo.current?.isDragging) return;
     const { startX, lastX, startTime } = dragInfo.current;
