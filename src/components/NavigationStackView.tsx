@@ -57,9 +57,13 @@ export const NavigationStackView = () => {
     } else {
       clientX = (e as MouseEvent).clientX;
     }
+    
+    const distance = clientX - dragInfo.current.startX;
+    if (distance < 0) return;
+    
     dragInfo.current.lastX = clientX;
     if (topScreenRef.current) {
-      topScreenRef.current.style.transform = `translateX(${clientX - dragInfo.current.startX}px)`;
+      topScreenRef.current.style.transform = `translateX(${distance}px)`;
     }
   }, []);
 
@@ -72,6 +76,11 @@ export const NavigationStackView = () => {
     } else {
       clientX = (e as React.MouseEvent).clientX;
     }
+    
+    // 화면 왼쪽 가장자리에서만 스와이프 시작 허용 (왼쪽 20% 이내)
+    const screenWidth = window.innerWidth;
+    if (clientX > screenWidth * 0.2) return;
+    
     dragInfo.current = {
       isDragging: true,
       startX: clientX,
