@@ -20,5 +20,4 @@ export const stackReducer = (state: StackState, action: StackAction): StackState
         stack: state.stack.filter(item => item.id !== action.id),
       }
   }
-  return state
 }

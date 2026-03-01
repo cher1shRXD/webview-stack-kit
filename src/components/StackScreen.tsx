@@ -9,7 +9,6 @@ import {
   TouchEvent,
 } from "react";
 import { StackItem } from "../types";
-import { getSearchParams } from "../utils/get-search-params";
 
 const stackScreenStyle: CSSProperties = {
   position: "absolute",
@@ -37,22 +36,8 @@ export const StackScreen = forwardRef<
   }
 >(({ item, index, totalCount, onExitComplete, onDragStart, ...rest }, ref) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [dynamicPadding, setDynamicPadding] = useState({
-    paddingTop: 0,
-    paddingBottom: 0,
-  });
   const isExiting = item.transition === "pop";
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    const elList =
-      containerRef.current?.querySelectorAll<HTMLElement>(".stack-view");
-    if (!elList) return;
-    elList.forEach((el) => {
-      el.style.paddingTop = `${dynamicPadding.paddingTop}px`;
-      el.style.paddingBottom = `${dynamicPadding.paddingBottom}px`;
-    });
-  }, [dynamicPadding.paddingTop, dynamicPadding.paddingBottom]);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
@@ -69,14 +54,6 @@ export const StackScreen = forwardRef<
       return () => clearTimeout(timer);
     }
   }, [isExiting, item.id, onExitComplete]);
-
-  useEffect(() => {
-    const searchParams = getSearchParams();
-    setDynamicPadding({
-      paddingTop: Number(searchParams["top"] || 0),
-      paddingBottom: Number(searchParams["bottom"] || 0),
-    });
-  }, []);
 
   const isTop = index === totalCount - 1;
 
